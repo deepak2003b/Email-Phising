@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Visual Phishing Detection</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+body {
+  background-color: #0f172a;
+  color: #e5e7eb;
+  scroll-behavior: smooth;
+}
+
+/* Navbar */
+.navbar {
+  background: rgba(15,23,42,0.9);
+}
+.navbar-brand {
+    color: rgb(255 255 255);
+}
+.nav-link { color: #e5e7eb !important; }
+
+/* Home */
+#home {
+  background: linear-gradient(rgba(0,0,0,.75), rgba(0,0,0,.9)),
+  url("https://images.unsplash.com/photo-1555949963-aa79dcee981c");
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+/* Glass Card */
+.glass {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+}
+
+/* Buttons */
+.btn-glow {
+  background: #3b82f6;
+  color: white;
+}
+
+/* Upload */
+.upload-box {
+  border: 2px dashed #3b82f6;
+  padding: 30px;
+  border-radius: 16px;
+}
+
+/* Result */
+.badge-phish { background:#ef4444;  }
+.badge-legit { background:#22c55e; }
+
+/* FAQ */
+.accordion-button {
+  background:#020617;
+  color:#ffffff;
+}
+.accordion-body {
+  background:#020617;
+  color: #ffffff;
+}
+
+footer {
+  background: #020617;
+  color: #e5e7eb;
+}
+
+footer h5 {
+  color: #3b82f6;
+}
+
+footer ul {
+  padding-left: 18px;
+}
+
+.footer-link {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg fixed-top">
+<div class="container">
+  <a class="navbar-brand fw-bold">🛡 Phising Email Detection</a>
+  <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="nav">
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+      <li class="nav-item"><a class="nav-link" href="#detect">Detection</a></li>
+      <li class="nav-item"><a class="nav-link" href="#result">Result</a></li>
+      <li class="nav-item"><a class="nav-link" href="#faq">FAQs</a></li>
+    </ul>
+  </div>
+</div>
+</nav>
+
+<!-- HOME -->
+<section id="home" class="text-center text-white">
+<div class="container">
+  <h1 class="display-4 fw-bold">Cross-Language Visual Phishing Detection System</h1>
+  <p class="lead mt-3">Language-independent phishing detection using visual and OCR intelligence</p>
+  <a href="#detect" class="btn btn-glow btn-lg mt-4">Analyze Now</a>
+</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="py-5">
+<div class="container">
+  <h2 class="text-center mb-4">About & How It Works </h2>
+
+  <!-- About Us Card -->
+  <div class="row justify-content-center mb-5">
+    <div class="col-md-8">
+      <div class="glass p-4 text-center">
+        <h4>About the System</h4>
+        <p>Cross-Language Visual Phishing Detection System is a cybersecurity solution that detects phishing emails using image-based analysis and OCR, independent of language. It extracts visual layouts, logos, and text features from email screenshots, converts them into vectors, and fuses them to compute an intent confidence score. The system classifies emails as phishing or legitimate based on the fused score. It supports multilingual detection and provides clear metrics for model performance.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <h3 class="text-center mb-4">How It Works</h3>
+  <div class="row g-4">
+    {% set steps = [
+      ("fa-upload","Upload Email Image"),
+      ("fa-image","Extract Visual Features (CNN / ViT)"),
+      ("fa-font","OCR Text Extraction"),
+      ("fa-layer-group","Feature Fusion"),
+      ("fa-shield","Classification Output")
+    ] %}
+    {% for icon,title in steps %}
+    <div class="col-md-4">
+      <div class="glass p-4 text-center h-100">
+        <i class="fa {{icon}} fa-2x text-primary mb-3"></i>
+        <h5>{{title}}</h5>
+        <p class="small">AI-driven phishing pattern analysis.</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+</section>
+
+<!-- DETECTION -->
+<section id="detect" class="py-5">
+<div class="container">
+  <h2 class="text-center mb-4">Run Detection</h2>
+  <form method="post" enctype="multipart/form-data" class="glass p-4">
+    <div class="upload-box mb-3 text-center">
+      <input type="file" name="image" class="form-control" required>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-glow btn-lg">
+        <i class="fa fa-play"></i> Run Detection
+      </button>
+    </div>
+  </form>
+</div>
+</section>
+
+<!-- RESULT -->
+{% if result %}
+<section id="result" class="py-5">
+<div class="container text-center">
+  <h2 class="mb-4">Result Analysis</h2>
+  {% if image_url %}
+<div class="mb-4">
+  <h5 class="mb-3">Uploaded Email Screenshot</h5>
+  <img src="{{ image_url }}" class="img-fluid rounded shadow" 
+       style="max-height:400px; object-fit:contain;">
+</div>
+{% endif %}
+
+  <div class="badge fs-4 p-4 mb-4 {{ 'badge-phish' if result=='Phishing' else 'badge-legit' }}">
+    {{ result }}
+  </div>
+
+  <div class="row g-4 justify-content-center">
+    <div class="col-md-3">
+      <div class="glass p-4 h-100 w-100 d-flex flex-column justify-content-center align-items-center text-center">
+        <h5>Visual Score</h5>
+        <p class="fs-4">{{ visual_score }} %</p>
+        <p>Measures how suspicious the email’s visual layout appears.</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="glass p-4 h-100 w-100 d-flex flex-column justify-content-center align-items-center text-center">
+        <h5>OCR Score</h5>
+        <p class="fs-4">{{ ocr_score }} %</p>
+        <p>Indicates how risky the extracted text content is.</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="glass p-4 h-100 w-100 d-flex flex-column justify-content-center align-items-center text-center">
+        <h5>Intent Confidence Score </h5>
+        <p class="fs-4">{{ confidence }} %</p>
+        <p>Shows the model’s overall certainty about the final prediction.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+{% endif %}
+
+<!-- FAQ -->
+<section id="faq" class="py-5">
+<div class="container">
+  <h2 class="text-center mb-4">FAQs</h2>
+  <div class="accordion">
+    {% for q in [
+      "What is visual phishing detection?",
+      "How is it different from text-based methods?",
+      "Does it support Tamil and Hindi?",
+      "What image formats are supported?",
+      "Is user data stored?"
+    ] %}
+    <div class="accordion-item mb-2">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q{{loop.index}}">
+          {{ q }}
+        </button>
+      </h2>
+      <div id="q{{loop.index}}" class="accordion-collapse collapse">
+        <div class="accordion-body">
+          This system analyzes email visuals and OCR text without language dependency.
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+{% if result %}
+<script>
+  window.onload = function() {
+    document.getElementById("result").scrollIntoView({
+      behavior: "smooth"
+    });
+  };
+</script>
+{% endif %}
+</body>
+<!-- FOOTER -->
+<footer class="mt-5">
+  <div class="container py-5">
+    <div class="row justify-content-center text-center">
+
+      <!-- Project Info -->
+      <div class="col-md-4 mb-4">
+        <h5 class="fw-bold">🛡 Phishing Email Detection</h5>
+        <p class="small">
+          Language-independent phishing detection using visual and OCR intelligence.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+</html>
